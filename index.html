@@ -38,7 +38,939 @@
     button { cursor: pointer; border: 0; }
 
     .top {
+      height: 64px;<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KH PATRUL — Barcha yo‘l belgilari va AvtoTest</title>
+  <style>
+    :root {
+      --bg: #0f1210;
+      --panel: #181c1a;
+      --panel2: #131614;
+      --line: #2b322e;
+      --text: #f3f6f4;
+      --muted: #9aa59f;
+      --green: #10b981;
+      --green-dark: #065f46;
+      --red: #ef4444;
+      --card-hover: #1d2621;
+    }
+    body.light {
+      --bg: #f4f7f5;
+      --panel: #ffffff;
+      --panel2: #eef2ef;
+      --line: #dce3de;
+      --text: #111814;
+      --muted: #5a6660;
+      --card-hover: #ecfdf5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 15px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      transition: background 0.2s, color 0.2s;
+    }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; border: 0; }
+
+    .top {
       height: 64px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 max(16px, calc((100% - 1080px) / 2));
+      position: sticky;
+      top: 0;
+      background: var(--panel2);
+      backdrop-filter: blur(10px);
+      z-index: 20;
+    }
+    .logo {
+      font-weight: 900;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .logo-badge {
+      background: var(--green);
+      color: #052e16;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+    .topright { display: flex; gap: 8px; align-items: center; }
+    .pill {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 7px 12px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .pill:hover { border-color: var(--green); }
+
+    .wrap { max-width: 1080px; margin: 24px auto; padding: 0 16px 56px; }
+    .view { display: none; animation: fadeIn 0.16s ease; }
+    .view.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+    .welcome h1 { font-size: 24px; margin: 0 0 4px; }
+    .muted { color: var(--muted); }
+
+    .resume {
+      padding: 16px 20px;
+      margin: 18px 0;
+      border: 1px solid var(--green-dark);
+      border-radius: 14px;
+      background: linear-gradient(115deg, rgba(16,185,129,0.14), var(--panel));
+    }
+    .resumetop {
+      display: flex;
+      justify-content: space-between;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+    }
+    .resumeinner { display: flex; gap: 14px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
+    .bar { height: 7px; background: var(--line); border-radius: 20px; flex: 1; min-width: 140px; overflow: hidden; }
+    .bar i { display: block; height: 100%; background: var(--green); border-radius: 20px; transition: width 0.3s; }
+
+    .primary {
+      background: var(--green);
+      color: #042f1e;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 800;
+    }
+    .primary:hover { filter: brightness(1.08); }
+    .secondary {
+      background: var(--panel2);
+      border: 1px solid var(--line);
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+    .secondary:hover { border-color: var(--green); }
+    .back {
+      background: transparent;
+      color: var(--green);
+      padding: 6px 0;
+      margin-bottom: 14px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+    .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+    .statlabel { color: var(--muted); font-size: 13px; }
+    .statbig { font-size: 24px; font-weight: 850; margin: 6px 0 2px; }
+    .section-title { font-size: 16px; font-weight: 800; margin: 24px 0 12px; }
+
+    .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .tile {
+      min-height: 62px;
+      padding: 14px 16px;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      font-weight: 700;
+      transition: 0.15s;
+    }
+    .tile:hover { border-color: var(--green); background: var(--card-hover); transform: translateY(-1px); }
+    .tile-left { display: flex; align-items: center; gap: 12px; }
+    .ico {
+      width: 34px; height: 34px;
+      border-radius: 9px;
+      background: rgba(16,185,129,0.12);
+      color: var(--green);
+      display: grid;
+      place-items: center;
+      font-size: 17px;
+    }
+    .badge { font-size: 12px; padding: 3px 8px; border-radius: 6px; background: var(--panel2); color: var(--muted); border: 1px solid var(--line); }
+
+    .qhead { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .progress { height: 6px; background: var(--line); border-radius: 20px; margin: 10px 0 18px; overflow: hidden; }
+    .progress i { display: block; height: 100%; background: var(--green); transition: width 0.25s; }
+    .q-img {
+      max-width: 175px;
+      margin: 10px auto 14px;
+      display: block;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 8px;
+    }
+    .question { font-size: 19px; font-weight: 750; margin: 12px 0 18px; line-height: 1.4; }
+    .answers { display: grid; gap: 10px; }
+    .answer {
+      background: var(--panel2);
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 14px 16px;
+      text-align: left;
+      transition: 0.12s;
+      line-height: 1.4;
+    }
+    .answer:hover:not(:disabled) { border-color: var(--green); }
+    .answer.correct { border-color: #10b981; background: rgba(16, 185, 129, 0.16); }
+    .answer.wrong { border-color: var(--red); background: rgba(239, 68, 68, 0.16); }
+    .explanation {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 3px solid var(--green);
+      font-size: 14px;
+      display: none;
+    }
+    .qfoot { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; gap: 10px; flex-wrap: wrap; }
+
+    .list-grid { display: grid; gap: 10px; }
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      text-align: left;
+    }
+    .list-item:hover { border-color: var(--green); }
+
+    .signs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+    .sign-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 14px;
+      text-align: center;
+    }
+    .sign-card img {
+      width: 96px;
+      height: 96px;
+      object-fit: contain;
+      background: #fff;
+      border-radius: 10px;
+      padding: 6px;
+      margin: 0 auto 10px;
+      display: block;
+    }
+
+    .form-grid { display: grid; gap: 12px; margin-top: 12px; }
+    .input {
+      width: 100%;
+      padding: 11px 13px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--panel2);
+    }
+    .input:focus { outline: none; border-color: var(--green); }
+
+    .result { text-align: center; padding: 30px 16px; }
+    .score { font-size: 52px; font-weight: 900; color: var(--green); margin: 6px 0; }
+    .smallgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 22px 0; }
+
+    @media (max-width: 680px) {
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stats .panel:last-child { grid-column: span 2; }
+      .tiles { grid-template-columns: 1fr; }
+      .question { font-size: 17px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="top">
+  <div class="logo" onclick="goHome()">
+    <span class="logo-badge">KH</span> PATRUL
+  </div>
+  <div class="topright">
+    <button class="pill" onclick="toggleTheme()" id="themeBtn">☀️ Kun</button>
+    <button class="pill" onclick="showLeaderboard()">🏆 Reyting</button>
+    <button class="pill" onclick="showAdmin()">⚙️ Admin</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- BOSH SAHIFA -->
+  <section id="home" class="view active">
+    <div class="welcome">
+      <h1>KH PATRUL — Barcha yo‘l belgilari va testlar</h1>
+      <div class="muted">O‘zbekiston YHQ asosida 20 ta yo‘l belgisi, 40 ta test savoli, biletlar, mavzular va marafon</div>
+    </div>
+
+    <div class="resume">
+      <div class="resumetop">
+        <span>● MARAFON JARAYONI</span>
+        <span id="streakLabel">Faol tayyorgarlik</span>
+      </div>
+      <div class="resumeinner">
+        <strong>🚘 Barcha savollar marafoni</strong>
+        <div class="bar"><i id="marathonBar" style="width:0%"></i></div>
+        <span id="marathonCount" style="font-weight:700">0/40</span>
+        <button class="primary" onclick="startTest('marathon')">Davom etish →</button>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="panel">
+        <div class="statlabel">✅ Ishlangan savollar</div>
+        <div class="statbig" id="statDone">0</div>
+        <div class="muted" style="font-size:12px">Jami javob berilgan</div>
+      </div>
+      <div class="panel">
+        <div class="statlabel">🎯 Aniqlik darajasi</div>
+        <div class="statbig" id="statAccuracy">0%</div>
+        <div class="muted" style="font-size:12px">To‘g‘ri javoblar ulushi</div>
+      </div>
+      <div class="panel">
+        <div class="statlabel">❌ Xatolar banki</div>
+        <div class="statbig" id="statMistakes">0</div>
+        <div class="muted" style="font-size:12px">Qayta ishlash uchun</div>
+      </div>
+    </div>
+
+    <div class="section-title">Asosiy test rejimlarini tanlang</div>
+    <div class="tiles">
+      <button class="tile" onclick="startTest('exam')">
+        <div class="tile-left"><span class="ico">🎓</span><span>Imtihon topshirish</span></div>
+        <span class="badge">20 savol • 25 min</span>
+      </button>
+      <button class="tile" onclick="showTickets()">
+        <div class="tile-left"><span class="ico">🎫</span><span>Biletlar bo‘yicha test</span></div>
+        <span class="badge" id="ticketCountBadge">8 bilet</span>
+      </button>
+      <button class="tile" onclick="showTopics()">
+        <div class="tile-left"><span class="ico">📚</span><span>Mavzular bo‘yicha test</span></div>
+        <span class="badge" id="topicCountBadge">Mavzular</span>
+      </button>
+      <button class="tile" onclick="startTest('marathon')">
+        <div class="tile-left"><span class="ico">∞</span><span>Marafon rejimi</span></div>
+        <span class="badge" id="allQBadge">40 savol</span>
+      </button>
+      <button class="tile" onclick="startTest('blitz')">
+        <div class="tile-left"><span class="ico">⚡</span><span>Blits-test</span></div>
+        <span class="badge">10 savol • 3 min</span>
+      </button>
+      <button class="tile" onclick="startTest('survival')">
+        <div class="tile-left"><span class="ico">🛡️</span><span>Omon qolish</span></div>
+        <span class="badge">1 xatogacha</span>
+      </button>
+    </div>
+
+    <div class="section-title">Yo‘l belgilari, shaxsiy mashq va baza</div>
+    <div class="tiles">
+      <button class="tile" onclick="startTest('signs')">
+        <div class="tile-left"><span class="ico">🚦</span><span>Yo‘l belgilari testi</span></div>
+        <span class="badge" id="signsTestBadge">20 ta belgi</span>
+      </button>
+      <button class="tile" onclick="showSignCatalog()">
+        <div class="tile-left"><span class="ico">📖</span><span>Barcha yo‘l belgilari katalogi</span></div>
+        <span class="badge">20 ta belgi</span>
+      </button>
+      <button class="tile" onclick="showMistakes()">
+        <div class="tile-left"><span class="ico">⚠️</span><span>Xatolarim ustida test</span></div>
+        <span class="badge" id="mistakeBadge">0 ta</span>
+      </button>
+      <button class="tile" onclick="showSaved()">
+        <div class="tile-left"><span class="ico">⭐</span><span>Saqlangan savollar testi</span></div>
+        <span class="badge" id="savedBadge">0 ta</span>
+      </button>
+      <button class="tile" onclick="showAdmin()">
+        <div class="tile-left"><span class="ico">➕</span><span>Savol qo‘shish (Admin)</span></div>
+        <span class="badge">Baza</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- BELGILAR KATALOGI -->
+  <section id="signCatalog" class="view">
+    <button class="back" onclick="goHome()">← Bosh sahifa</button>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px">
+      <h2 style="margin:0">Barcha yo‘l belgilari katalogi</h2>
+      <button class="primary" onclick="startTest('signs')">Belgilardan test boshlash →</button>
+    </div>
+    <div class="signs-grid" id="signCatalogGrid"></div>
+  </section>
+
+  <!-- MAVZULAR -->
+  <section id="topics" class="view">
+    <button class="back" onclick="goHome()">← Bosh sahifa</button>
+    <h2>Mavzular bo‘yicha testlar</h2>
+    <div class="list-grid" id="topicList"></div>
+  </section>
+
+  <!-- BILETLAR -->
+  <section id="tickets" class="view">
+    <button class="back" onclick="goHome()">← Bosh sahifa</button>
+    <h2>Biletlar bo‘yicha testlar</h2>
+    <p class="muted">Har bir biletda 5 tadan savol-javob joylashgan.</p>
+    <div class="list-grid" id="ticketList"></div>
+  </section>
+
+  <!-- TEST JARAYONI -->
+  <section id="test" class="view">
+    <button class="back" onclick="goHome()">← Testni to‘xtatish</button>
+    <div class="qhead">
+      <strong id="modeTitle">Test</strong>
+      <span class="pill" id="timer">25:00</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; font-size:13px" class="muted">
+      <span id="qTopic">Mavzu</span>
+      <span id="qCount">1 / 20</span>
+    </div>
+    <div class="progress"><i id="qBar" style="width:5%"></i></div>
+
+    <div class="panel">
+      <div id="qImageWrap"></div>
+      <div class="question" id="qText">Savol matni</div>
+      <div class="answers" id="answersBox"></div>
+      <div class="explanation" id="explanationBox"></div>
+
+      <div class="qfoot">
+        <button class="secondary" id="saveBtn" onclick="toggleSave()">☆ Saqlash</button>
+        <button class="primary" id="nextBtn" onclick="nextQuestion()">Keyingi savol →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- NATIJA -->
+  <section id="result" class="view">
+    <div class="panel result">
+      <div class="muted" style="font-weight:700; letter-spacing:1px">TEST YAKUNLANDI</div>
+      <div class="score" id="resScore">0%</div>
+      <h2 id="resTitle" style="margin:6px 0">Natija</h2>
+      <p class="muted" id="resDesc"></p>
+      <div class="smallgrid">
+        <div class="panel"><strong id="resRight" style="color:var(--green); font-size:20px">0</strong><div class="muted">To‘g‘ri</div></div>
+        <div class="panel"><strong id="resWrong" style="color:var(--red); font-size:20px">0</strong><div class="muted">Xato</div></div>
+        <div class="panel"><strong id="resTime" style="font-size:20px">0:00</strong><div class="muted">Sarflangan vaqt</div></div>
+      </div>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap">
+        <button class="primary" onclick="goHome()">Bosh sahifaga</button>
+        <button class="secondary" onclick="startTest(currentMode)">Qayta topshirish</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- XATOLARIM -->
+  <section id="mistakes" class="view">
+    <button class="back" onclick="goHome()">← Bosh sahifa</button>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px">
+      <h2 style="margin:0">Xatolar ustida ishlash</h2>
+      <button class="primary" id="practiceMistakesBtn" onclick="startTest('mistakes')">Xatolar bo‘yicha test boshlash</button>
+    </div>
+    <div class="list-grid" id="mistakeList"></div>
+  </section>
+
+  <!-- SAQLANGANLAR -->
+  <section id="saved" class="view">
+    <button class="back" onclick="goHome()">← Bosh sahifa</button>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px">
+      <h2 style="margin:0">Saqlangan savollar</h2>
+      <button class="primary" id="practiceSavedBtn" onclick="startTest('saved')">Saqlanganlar bo‘yicha test</button>
+    </div>
+    <div class="list-grid" id="savedList"></div>
+  </section>
+
+  <!-- REYTING -->
+  <section id="leaderboard" class="view">
+    <button class="back" onclick="goHome()">← Bosh sahifa</button>
+    <h2>Foydalanuvchilar reytingi</h2>
+    <div class="list-grid" id="leaderList"></div>
+  </section>
+
+  <!-- ADMIN PANEL -->
+  <section id="admin" class="view">
+    <button class="back" onclick="goHome()">← Bosh sahifa</button>
+    <h2>Admin Panel — Savollar bazasi</h2>
+    <div class="panel">
+      <strong>Yangi savol qo‘shish</strong>
+      <div class="form-grid">
+        <input class="input" id="inTopic" placeholder="Mavzu (masalan: Taqiqlovchi belgilar)">
+        <input class="input" id="inImg" placeholder="Rasm havolasi URL (ixtiyoriy)">
+        <textarea class="input" id="inQ" rows="2" placeholder="Savol matnini kiriting..."></textarea>
+        <input class="input" id="inA0" placeholder="1-variant (A)">
+        <input class="input" id="inA1" placeholder="2-variant (B)">
+        <input class="input" id="inA2" placeholder="3-variant (C)">
+        <input class="input" id="inA3" placeholder="4-variant (D)">
+        <select class="input" id="inCorrect">
+          <option value="0">To‘g‘ri javob: A (1-variant)</option>
+          <option value="1">To‘g‘ri javob: B (2-variant)</option>
+          <option value="2">To‘g‘ri javob: C (3-variant)</option>
+          <option value="3">To‘g‘ri javob: D (4-variant)</option>
+        </select>
+        <input class="input" id="inWhy" placeholder="Izoh (nima uchun bu javob to‘g‘ri?)">
+        <div style="display:flex; gap:10px; flex-wrap:wrap">
+          <button class="primary" onclick="addNewQuestion()">+ Bazaga saqlash</button>
+          <button class="secondary" onclick="exportQuestions()">📥 Bazani yuklab olish (JSON)</button>
+        </div>
+      </div>
+    </div>
+    <h3 style="margin-top:22px">Mavjud savollar (<span id="totalQCount">0</span> ta)</h3>
+    <div class="list-grid" id="adminQList"></div>
+  </section>
+</main>
+
+<script>
+  const SVG_STOP = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><polygon points="30,5 70,5 95,30 95,70 70,95 30,95 5,70 5,30" fill="%23dc2626" stroke="%23ffffff" stroke-width="4"/><text x="50" y="57" font-family="Arial" font-weight="bold" font-size="22" fill="white" text-anchor="middle">STOP</text></svg>`;
+  const SVG_NO_ENTRY = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="%23dc2626" stroke="%23ffffff" stroke-width="4"/><rect x="20" y="42" width="60" height="16" rx="3" fill="white"/></svg>`;
+  const SVG_SPEED_50 = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="white" stroke="%23dc2626" stroke-width="10"/><text x="50" y="61" font-family="Arial" font-weight="bold" font-size="32" fill="%23111" text-anchor="middle">50</text></svg>`;
+  const SVG_YIELD = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><polygon points="10,20 90,20 50,88" fill="white" stroke="%23dc2626" stroke-width="10"/></svg>`;
+  const SVG_NO_PARKING = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="%232563eb" stroke="%23dc2626" stroke-width="8"/><line x1="20" y1="80" x2="80" y2="20" stroke="%23dc2626" stroke-width="8"/><text x="50" y="61" font-family="Arial" font-weight="bold" font-size="32" fill="white" text-anchor="middle">P</text></svg>`;
+  const SVG_NO_STOP = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="%232563eb" stroke="%23dc2626" stroke-width="8"/><line x1="20" y1="80" x2="80" y2="20" stroke="%23dc2626" stroke-width="8"/><line x1="20" y1="20" x2="80" y2="80" stroke="%23dc2626" stroke-width="8"/></svg>`;
+  const SVG_PEDESTRIAN = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><polygon points="50,8 94,84 6,84" fill="white" stroke="%23dc2626" stroke-width="8"/><circle cx="50" cy="43" r="5" fill="%23111"/><path d="M50 49 L44 63 L37 74 M50 49 L56 63 L63 74 M41 55 L59 55" stroke="%23111" stroke-width="4" fill="none" stroke-linecap="round"/></svg>`;
+  const SVG_CHILDREN = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><polygon points="50,8 94,84 6,84" fill="white" stroke="%23dc2626" stroke-width="8"/><circle cx="45" cy="44" r="4.5" fill="%23111"/><path d="M45 49 L40 62 L35 74 M45 49 L50 62 L54 74" stroke="%23111" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="57" cy="49" r="3.5" fill="%23111"/><path d="M57 53 L54 64 L52 74 M57 53 L60 64 L63 74" stroke="%23111" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`;
+  const SVG_SLIPPERY = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><polygon points="50,8 94,84 6,84" fill="white" stroke="%23dc2626" stroke-width="8"/><path d="M35 66 Q43 52 50 60 T65 48" stroke="%23111" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M32 74 Q42 64 52 70 T68 60" stroke="%23111" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>`;
+  const SVG_ROAD_WORKS = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><polygon points="50,8 94,84 6,84" fill="white" stroke="%23dc2626" stroke-width="8"/><path d="M35 72 L45 44 L55 44 L65 72 Z" fill="%23f97316"/><circle cx="50" cy="36" r="4" fill="%23111"/></svg>`;
+  const SVG_CROSSWALK_SIGN = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><rect x="12" y="12" width="76" height="76" rx="8" fill="%232563eb" stroke="white" stroke-width="4"/><polygon points="24,78 76,78 68,66 32,66" fill="white"/><circle cx="50" cy="30" r="5" fill="white"/><path d="M50 36 L44 50 L38 61 M50 36 L56 50 L62 61 M41 42 L59 42" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/></svg>`;
+  const SVG_PARKING_SIGN = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><rect x="12" y="12" width="76" height="76" rx="8" fill="%232563eb" stroke="white" stroke-width="4"/><text x="50" y="64" font-family="Arial" font-weight="bold" font-size="44" fill="white" text-anchor="middle">P</text></svg>`;
+  const SVG_ONE_WAY = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="180" height="120" viewBox="0 0 120 80"><rect x="8" y="10" width="104" height="60" rx="6" fill="%232563eb" stroke="white" stroke-width="3"/><line x1="24" y1="40" x2="86" y2="40" stroke="white" stroke-width="7" stroke-linecap="round"/><polyline points="72,26 90,40 72,54" fill="none" stroke="white" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const SVG_NO_OVERTAKING = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="white" stroke="%23dc2626" stroke-width="10"/><rect x="24" y="45" width="18" height="22" rx="3" fill="%23dc2626"/><rect x="54" y="34" width="20" height="26" rx="3" fill="%23111"/></svg>`;
+  const SVG_ROUNDABOUT = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="%232563eb" stroke="white" stroke-width="4"/><circle cx="50" cy="50" r="20" fill="none" stroke="white" stroke-width="5" stroke-dasharray="78 24"/><polygon points="71,44 77,54 65,53" fill="white"/></svg>`;
+  const SVG_MAIN_ROAD = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><polygon points="50,10 90,50 50,90 10,50" fill="%23facc15" stroke="%23111" stroke-width="5"/><polygon points="50,20 80,50 50,80 20,50" fill="none" stroke="white" stroke-width="3"/></svg>`;
+  const SVG_END_LIMIT = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="white" stroke="%236b7280" stroke-width="5"/><line x1="22" y1="78" x2="78" y2="22" stroke="%23111" stroke-width="6"/><text x="50" y="60" font-family="Arial" font-weight="bold" font-size="30" fill="%236b7280" text-anchor="middle">50</text></svg>`;
+  const SVG_STRAIGHT_ONLY = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="%232563eb" stroke="white" stroke-width="4"/><line x1="50" y1="76" x2="50" y2="28" stroke="white" stroke-width="7" stroke-linecap="round"/><polyline points="35,42 50,25 65,42" fill="none" stroke="white" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const SVG_RIGHT_ONLY = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="%232563eb" stroke="white" stroke-width="4"/><line x1="24" y1="50" x2="72" y2="50" stroke="white" stroke-width="7" stroke-linecap="round"/><polyline points="58,35 75,50 58,65" fill="none" stroke="white" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const SVG_RAILWAY_NO_BARRIER = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100"><polygon points="50,8 94,84 6,84" fill="white" stroke="%23dc2626" stroke-width="8"/><line x1="36" y1="42" x2="64" y2="70" stroke="%23111" stroke-width="5" stroke-linecap="round"/><line x1="64" y1="42" x2="36" y2="70" stroke="%23111" stroke-width="5" stroke-linecap="round"/></svg>`;
+
+  const DEFAULT_QUESTIONS = [
+    { id: 1, topic: "Imtiyoz belgilari", img: SVG_STOP, q: "2.5 «To‘xtamasdan harakatlanish taqiqlangan» belgisi haydovchidan nimani talab qiladi?", a: ["Tezlikni pasaytirib o‘tishni", "To‘xtash chizig‘i yoki kesishma oldida to‘liq to‘xtashni", "Faqat piyodaga yo‘l berishni", "Signal berishni"], c: 1, why: "STOP belgisi oldida transport vositasi to‘liq to‘xtashi shart." },
+    { id: 2, topic: "Taqiqlovchi belgilar", img: SVG_NO_ENTRY, q: "3.1 «Kirish taqiqlangan» belgisi nimani bildiradi?", a: ["Barcha transport vositalarining kirishi taqiqlangan", "To‘xtash taqiqlangan", "Quvib o‘tish taqiqlangan", "Oxiri berk yo‘l"], c: 0, why: "Ushbu yo‘nalishda transport vositalarining kirishi taqiqlanadi." },
+    { id: 3, topic: "Taqiqlovchi belgilar", img: SVG_SPEED_50, q: "3.24 belgi ta’sir oralig‘ida maksimal tezlik qancha bo‘lishi kerak?", a: ["Kamida 50 km/soat", "50 km/soatdan oshmasligi kerak", "70 km/soat", "Cheklov yo‘q"], c: 1, why: "Belgidagi raqamdan (50 km/soat) ortiq tezlikda harakatlanish taqiqlanadi." },
+    { id: 4, topic: "Imtiyoz belgilari", img: SVG_YIELD, q: "2.4 «Yo‘l bering» belgisi o‘rnatilgan joyda nima qilinadi?", a: ["Asosiy yo‘ldan kelayotgan transportlarga yo‘l beriladi", "Har doim to‘liq to‘xtash shart", "Faqat o‘ngga burilish mumkin", "Tezlik oshiriladi"], c: 0, why: "2.4 belgisi yaqinlashayotgan transport vositalariga yo‘l berishni bildiradi." },
+    { id: 5, topic: "Taqiqlovchi belgilar", img: SVG_NO_PARKING, q: "3.28 «To‘xtab turish taqiqlangan» belgisi qanday harakatni taqiqlaydi?", a: ["Faqat yuk mashinalari harakatini", "To‘xtab turishni (5 daqiqadan ortiq yoki yuk ortish/tushirishdan tashqari holatlarda)", "Barcha harakatni", "Piyodalar yurishini"], c: 1, why: "3.28 belgisi transport vositasining to‘xtab turishini taqiqlaydi." },
+    { id: 6, topic: "Taqiqlovchi belgilar", img: SVG_NO_STOP, q: "3.27 «To‘xtash taqiqlangan» belgisi nimani anglatadi?", a: ["To‘xtash va to‘xtab turish taqiqlanganini", "Faqat 5 daqiqa to‘xtash mumkinligini", "Faqat tunda to‘xtashni", "Piyodalar o‘tish joyini"], c: 0, why: "3.27 belgisi ta’sir hududida to‘xtash ham, to‘xtab turish ham taqiqlanadi." },
+    { id: 7, topic: "Ogohlantiruvchi belgilar", img: SVG_PEDESTRIAN, q: "1.20 «Piyodalar o‘tish joyi» ogohlantiruvchi belgisi nimani bildiradi?", a: ["Tartibga solinmagan piyodalar o‘tish joyiga yaqinlashayotganlikni", "Faqat avtobuslarga yo‘l berishni", "To‘xtash taqiqlanganini", "Tezlikni 90 km/soatgacha oshirishni"], c: 0, why: "Haydovchini piyodalar o‘tish joyiga oldindan ogohlantiradi." },
+    { id: 8, topic: "Ogohlantiruvchi belgilar", img: SVG_CHILDREN, q: "1.21 «Bolalar» ogohlantiruvchi belgisi o‘rnatilgan joyda nima qilish kerak?", a: ["Hushyorlikni oshirib, qatnov qismiga bolalar chiqish ehtimoliga tayyor turish", "Faqat tovush signali berish", "Tezlikni oshirish", "Faqat tunda e’tibor berish"], c: 0, why: "Bolalar ishtirokidagi xavf sabab ehtiyotkorlikni oshirish lozim." },
+    { id: 9, topic: "Ogohlantiruvchi belgilar", img: SVG_SLIPPERY, q: "1.13 «Sirpanchiq yo‘l» belgisi ta’sirida haydovchi qanday harakatlanishi lozim?", a: ["Keskin tormozlash va burilishlardan saqlanib, tezlikni mos tanlashi kerak", "Tormozni keskin bosishi kerak", "Masofani qisqartirishi kerak", "O‘zgarish kiritmaydi"], c: 0, why: "Sirpanchiq yo‘lda tormoz yo‘li uzayadi." },
+    { id: 10, topic: "Ogohlantiruvchi belgilar", img: SVG_ROAD_WORKS, q: "1.16 «Yo‘l ishlari» belgisi nimani bildiradi?", a: ["Qatnov qismida ta’mirlash yoki yo‘l ishlari olib borilayotganini", "Yangi asfalt yotqizib bo‘linganini", "Avtoturargohni", "Bekatni"], c: 0, why: "Yo‘l ishchilari va texnikasi borligi sabab ehtiyotkorlik talab etiladi." },
+    { id: 11, topic: "Axborot-ko‘rsatkich belgilari", img: SVG_CROSSWALK_SIGN, q: "5.16.1 «Piyodalar o‘tish joyi» belgisi nimani bildiradi?", a: ["Piyodalar o‘tish joyi boshlanganligini", "Piyodalar yurishi taqiqlanganini", "Yer osti o‘tish joyini", "Velosiped yo‘lakchasini"], c: 0, why: "5.16.1 belgisi piyodalar o‘tish joyini ko‘rsatadi." },
+    { id: 12, topic: "Axborot-ko‘rsatkich belgilari", img: SVG_PARKING_SIGN, q: "5.15 «To‘xtab turish joyi» belgisi nimani anglatadi?", a: ["Transport vositalarini qo‘yish (parkovka) joyini", "Yuk tushirish joyini", "Yonilg‘i quyish shoxobchasini", "Ta’mirlash ustaxonasini"], c: 0, why: "5.15 belgisi transport vositasini qo‘yish mumkin bo‘lgan joyni bildiradi." },
+    { id: 13, topic: "Axborot-ko‘rsatkich belgilari", img: SVG_ONE_WAY, q: "5.5 «Bir tomonlama harakatli yo‘l» belgisida harakat qanday bo‘ladi?", a: ["Faqat strelka yo‘nalishida", "Ikki tomonga ham", "Faqat orqaga", "Faqat dam olish kunlari"], c: 0, why: "Bir tomonlama yo‘lda qarama-qarshi harakat taqiqlanadi." },
+    { id: 14, topic: "Taqiqlovchi belgilar", img: SVG_NO_OVERTAKING, q: "3.20 «Quvib o‘tish taqiqlangan» belgisi nimani bildiradi?", a: ["Quvib o‘tish taqiqlanishini", "Chapga burilish taqiqlanishini", "To‘xtash taqiqlanishini", "Svetofor ishlashini"], c: 0, why: "3.20 belgisi o‘rnatilgan hududda quvib o‘tish cheklanadi." },
+    { id: 15, topic: "Majburiy harakatlanish belgilari", img: SVG_ROUNDABOUT, q: "4.3 «Aylanma harakat» belgisi nimani bildiradi?", a: ["Chorrahadan faqat strelka yo‘nalishida aylanib o‘tishni", "Faqat o‘ngga burilishni", "To‘g‘riga harakat taqiqlanishini", "Aylanib qaytish taqiqlanishini"], c: 0, why: "4.3 belgisi aylanma harakat yo‘nalishini ko‘rsatadi." },
+    { id: 16, topic: "Imtiyoz belgilari", img: SVG_MAIN_ROAD, q: "2.1 «Asosiy yo‘l» belgisi nimani bildiradi?", a: ["Nizoli chorrahadan birinchi navbatda o‘tish huquqini beruvchi asosiy yo‘lda ketayotganingizni", "Albatta to‘liq to‘xtash kerakligini", "Ikkinchi darajali yo‘lni", "Tezlik 20 km/soat ekanligini"], c: 0, why: "2.1 belgisi kesishayotgan yo‘ldagilarga nisbatan ustunlik beradi." },
+    { id: 17, topic: "Taqiqlovchi belgilar", img: SVG_END_LIMIT, q: "3.25 «Maksimal tezlikni cheklashning oxiri» belgisi nimani anglatadi?", a: ["Avvalgi 3.24 tezlik cheklovi ta’siri tugaganligini", "Tezlikni 50 km/soatda saqlashni", "Harakatni taqiqlashni", "Piyodalar o‘tish joyini"], c: 0, why: "Ushbu belgidan keyin avvalgi tezlik cheklovi bekor qilinadi." },
+    { id: 18, topic: "Majburiy harakatlanish belgilari", img: SVG_STRAIGHT_ONLY, q: "4.1.1 «To‘g‘riga harakatlanish» belgisi nimani bildiradi?", a: ["Faqat to‘g‘riga harakatlanishga ruxsat berilishini", "Faqat o‘ngga burilishni", "Chapga burilishni", "Orqaga qaytishni"], c: 0, why: "4.1.1 belgisi faqat to‘g‘riga harakatlanishni buyuradi." },
+    { id: 19, topic: "Majburiy harakatlanish belgilari", img: SVG_RIGHT_ONLY, q: "4.1.2 «O‘ngga harakatlanish» belgisi nimani bildiradi?", a: ["Faqat o‘ngga burilishga ruxsat berilishini", "Faqat to‘g‘riga harakatni", "Chapga burilishni", "Aylanma harakatni"], c: 0, why: "4.1.2 belgisi faqat o‘ngga harakatlanishni buyuradi." },
+    { id: 20, topic: "Ogohlantiruvchi belgilar", img: SVG_RAILWAY_NO_BARRIER, q: "1.3.2 «Shlagbaumsiz temir yo‘l kesishmasi» belgisi nimani anglatadi?", a: ["Shlagbaumsiz temir yo‘l kesishmasiga yaqinlashayotganlikni", "Avtobus bekatini", "Yer osti o‘tish joyini", "Aylanma yo‘lni"], c: 0, why: "Temir yo‘l kesishmasiga yaqinlashganda albatta poyezd yo‘qligini tekshirish kerak." },
+    { id: 21, topic: "Harakatlanish tezligi", img: "", q: "Aholi punktlarida transport vositalarining maksimal tezligi qancha?", a: ["50 km/soat", "60 km/soat", "70 km/soat", "80 km/soat"], c: 1, why: "O‘zbekiston YHQga ko‘ra aholi punktlarida tezlik 60 km/soatdan oshmasligi kerak." },
+    { id: 22, topic: "Harakatlanish tezligi", img: "", q: "Turar joy dahalarida transport vositalarining eng yuqori tezligi qancha?", a: ["20 km/soat", "30 km/soat", "40 km/soat", "50 km/soat"], c: 1, why: "Turar joy dahalari va maktab yaqinida tezlik 30 km/soatdan oshmasligi lozim." },
+    { id: 23, topic: "Piyodalar o‘tish joyi", img: "", q: "Tartibga solinmagan piyodalar o‘tish joyida haydovchi nima qilishi kerak?", a: ["Piyodalarga yo‘l berishi", "Signal berib o‘tib ketishi", "Tezlikni oshirishi", "To‘xtab turishi"], c: 0, why: "Piyodalar o‘tish joyida qatnov qismini kesib o‘tayotgan piyodalarga yo‘l berish shart." },
+    { id: 24, topic: "Svetofor ishoralari", img: "", q: "Svetoforning miltillovchi yashil ishorasi nimani bildiradi?", a: ["Kirish taqiqlangan", "Harakatga ruxsat, tez orada taqiqlovchi signal yonadi", "Faqat tramvayga ruxsat", "Svetofor ishlamayapti"], c: 1, why: "Yashil miltillovchi chiroq vaqt tugayotganini bildiradi." },
+    { id: 25, topic: "Svetofor ishoralari", img: "", q: "Svetoforning sariq ishorasi yonganda nima qilish kerak?", a: ["Tezlikni oshirib o‘tib ketish", "Harakatlanishni davom ettirish mumkin emas, to‘xtash choralarini ko‘rish", "Faqat chapga burilish", "Tovush signali berish"], c: 1, why: "Sariq signal harakatlanishni taqiqlaydi." },
+    { id: 26, topic: "Quvib o‘tish", img: "", q: "Temir yo‘l kesishmalarida quvib o‘tishga ruxsat etiladimi?", a: ["Ha, doim", "Yo‘q, qat’iyan taqiqlanadi", "Faqat shlagbaum ochiq bo‘lsa", "Faqat mototsiklga"], c: 1, why: "Temir yo‘l kesishmalarida va ulargacha 100 metr qolganda quvib o‘tish taqiqlanadi." },
+    { id: 27, topic: "Quvib o‘tish", img: "", q: "Piyodalar o‘tish joylarida quvib o‘tish mumkinmi?", a: ["Yo‘q, taqiqlanadi", "Ha, piyoda bo‘lmasa", "Faqat kunduzi", "Faqat 30 km/soat tezlikda"], c: 0, why: "Piyodalar o‘tish joylarida quvib o‘tish taqiqlangan." },
+    { id: 28, topic: "Xavfsiz masofa", img: "", q: "Oldinda ketayotgan transport vositasigacha masofa qanday tanlanadi?", a: ["Doimo 2 metr", "Tezlik va yo‘l holatiga mos to‘xtash imkonini beradigan masofa", "Masofa tanlanmaydi", "Faqat yomg‘irda o‘zgaradi"], c: 1, why: "Haydovchi to‘qnashuvning oldini olish uchun xavfsiz masofa saqlashi shart." },
+    { id: 29, topic: "Majburiy harakatlar", img: "", q: "Burilishdan oldin burilish ko‘rsatkich chirog‘i qachon yoqiladi?", a: ["Burilish vaqtida", "Manyovr boshlashdan oldin o‘z vaqtida", "Burilib bo‘lgach", "Faqat kechqurun"], c: 1, why: "Boshqa harakat qatnashchilarini ogohlantirish uchun signal oldindan beriladi." },
+    { id: 30, topic: "To‘xtash va to‘xtab turish", img: "", q: "Piyodalar o‘tish joyida va undan 5 metr yaqinlikda to‘xtash mumkinmi?", a: ["Yo‘q, taqiqlanadi", "Ha, 5 daqiqagacha", "Faqat yuk mashinasiga", "Faqat dam olish kunlari"], c: 0, why: "Piyodalar o‘tish joyida va unga 5 metrdan yaqin masofada to‘xtash taqiqlanadi." },
+    { id: 31, topic: "Birinchi tibbiy yordam", img: "", q: "Kuchli arterial qon ketishda qon qanday rangda va oqimda bo‘ladi?", a: ["To‘q qizil, sekin oqadi", "Yorqin qizil, pulsatsiyalanib (urib) oqadi", "Sarg‘ish suyuqlik", "Faqat tomchilab oqadi"], c: 1, why: "Arterial qon yorqin qizil rangda bo‘lib, yurak urishiga mos ravishda otilib chiqadi." },
+    { id: 32, topic: "Birinchi tibbiy yordam", img: "", q: "Kuchli arterial qon ketishda jgut qayerga qo‘yiladi?", a: ["Jarohatdan pastroqqa", "Jarohatdan yuqoriroqqa (yurak tomonga)", "Faqat bo‘yinga", "Jarohat ustiga"], c: 1, why: "Jgut qon oqimini to‘xtatish uchun jarohatdan yuqoriga qo‘yiladi." },
+    { id: 33, topic: "Chorrahalardan o‘tish", img: "", q: "Teng ahamiyatli yo‘llar chorrahasida o‘ng qo‘l qoidasi nimani anglatadi?", a: ["Chapdan kelayotganga yo‘l berish", "O‘ng tomondan yaqinlashayotgan transport vositasiga yo‘l berish", "Birinchi bo‘lib o‘tish", "Orqaga qaytish"], c: 1, why: "Teng huquqli yo‘llar kesishmasida o‘ngdan kelayotgan transport vositasiga yo‘l beriladi." },
+    { id: 34, topic: "Chorrahalardan o‘tish", img: "", q: "Chapga burilayotgan haydovchi kimlarga yo‘l berishi shart?", a: ["Qarama-qarshi yo‘nalishdan to‘g‘riga yoki o‘ngga harakatlanayotganlarga", "Faqat velosipedchilarga", "Hech kimga", "Faqat avtobuslarga"], c: 0, why: "Chapga burilishda qarama-qarshi oqimdagi transport vositalariga yo‘l berish lozim." },
+    { id: 35, topic: "Yoritish asboblari", img: "", q: "Sutkaning qorong‘i vaqtida va yetarlicha ko‘rinmaydigan sharoitda nima yoqiladi?", a: ["Faqat salon chirog‘i", "Fara chiroqlari (yaqin yoki uzoq yorug‘lik)", "Faqat avariya ishorasi", "Hech narsa"], c: 1, why: "Ko‘rinuvchanlikni ta’minlash uchun fara chiroqlari yoqilishi shart." },
+    { id: 36, topic: "Haydovchi majburiyatlari", img: "", q: "Harakatlanish vaqtida xavfsizlik kamarini taqish majburiymi?", a: ["Ha, haydovchi va yo‘lovchilar uchun majburiy", "Faqat shahar tashqarisida", "Faqat yangi mashinalarda", "Ixtiyoriy"], c: 0, why: "Xavfsizlik kamarini taqish YHQ talabidir." },
+    { id: 37, topic: "Haydovchi majburiyatlari", img: "", q: "Transport vositasini boshqarish vaqtida telefondan foydalanish qanday tartibda mumkin?", a: ["Qo‘lda ushlab gaplashish mumkin", "Faqat quloqchin yoki qo‘llarni band qilmaydigan qurilma orqali", "Umuman mumkin emas", "Faqat tirbandlikda"], c: 1, why: "Haydovchi qo‘lida telefon ushlab gaplashishi taqiqlanadi; hands-free/quloqchin orqali ruxsat etiladi." },
+    { id: 38, topic: "Harakatlanish tezligi", img: "", q: "Aholi punktlaridan tashqarida yengil avtomobillarning maksimal tezligi qancha?", a: ["80 km/soat", "100 km/soat", "110 km/soat", "120 km/soat"], c: 1, why: "Aholi punktlaridan tashqarida yengil avtomobillarga 100 km/soatgacha tezlikka ruxsat beriladi." },
+    { id: 39, topic: "To‘xtash va to‘xtab turish", img: "", q: "Ko‘prik, estakada va tonnellarda to‘xtash mumkinmi?", a: ["Ha, 2 daqiqagacha", "Yo‘q, taqiqlanadi", "Faqat favqulodda holatda", "Faqat tunda"], c: 1, why: "Ko‘priklar, estakadalar va tonnellarda to‘xtash taqiqlanadi." },
+    { id: 40, topic: "Temir yo‘l kesishmalari", img: "", q: "Temir yo‘l kesishmasiga yaqinlashganda shlagbaum tusha boshlasa nima qilish kerak?", a: ["Tez o‘tib ketish", "Shlagbaum oldida to‘xtash", "Chapga burilish", "Signal berib o‘tish"], c: 1, why: "Shlagbaum tusha boshlaganda kesishmadan o‘tish qat’iyan taqiqlanadi." }
+  ];
+
+  const getStore = (k, def) => {
+    try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; }
+  };
+  const setStore = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+
+  let questions = getStore('kh_all_questions_v3', DEFAULT_QUESTIONS);
+  let activeList = [];
+  let qIndex = 0;
+  let currentMode = 'exam';
+  let answeredCurrent = false;
+  let scoreRight = 0;
+  let scoreWrong = 0;
+  let timerInt = null;
+  let timeLeft = 0;
+  let startTime = 0;
+
+  function showView(id) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function goHome() {
+    clearInterval(timerInt);
+    updateStats();
+    showView('home');
+  }
+
+  function toggleTheme() {
+    document.body.classList.toggle('light');
+    const isLight = document.body.classList.contains('light');
+    document.getElementById('themeBtn').textContent = isLight ? '🌙 Tun' : '☀️ Kun';
+  }
+
+  function updateStats() {
+    const stats = getStore('kh_stats', { done: 0, right: 0 });
+    const mistakes = getStore('kh_mistakes', []);
+    const saved = getStore('kh_saved', []);
+    const marathonIdx = getStore('kh_marathon_idx', 0);
+    const topicsCount = new Set(questions.map(q => q.topic)).size;
+    const ticketsCount = Math.max(1, Math.ceil(questions.length / 5));
+    const signsCount = questions.filter(q => Boolean(q.img)).length;
+
+    document.getElementById('statDone').textContent = stats.done;
+    document.getElementById('statAccuracy').textContent = stats.done ? Math.round((stats.right / stats.done) * 100) + '%' : '0%';
+    document.getElementById('statMistakes').textContent = mistakes.length;
+    document.getElementById('mistakeBadge').textContent = mistakes.length + ' ta';
+    document.getElementById('savedBadge').textContent = saved.length + ' ta';
+    document.getElementById('topicCountBadge').textContent = topicsCount + ' mavzu';
+    document.getElementById('ticketCountBadge').textContent = ticketsCount + ' bilet';
+    document.getElementById('allQBadge').textContent = questions.length + ' savol';
+    document.getElementById('signsTestBadge').textContent = signsCount + ' ta belgi';
+
+    const doneMar = Math.min(marathonIdx, questions.length);
+    document.getElementById('marathonCount').textContent = `${doneMar}/${questions.length}`;
+    document.getElementById('marathonBar').style.width = questions.length ? `${(doneMar / questions.length) * 100}%` : '0%';
+  }
+
+  function showSignCatalog() {
+    const signQuestions = questions.filter(q => Boolean(q.img));
+    document.getElementById('signCatalogGrid').innerHTML = signQuestions.map(q => `
+      <div class="sign-card">
+        <img src="${q.img}" alt="${q.topic}">
+        <div class="muted" style="font-size:12px">${q.topic}</div>
+        <strong style="display:block; margin:6px 0">${q.q}</strong>
+        <div style="font-size:13px; color:var(--green)">✔ ${q.a[q.c]}</div>
+      </div>
+    `).join('');
+    showView('signCatalog');
+  }
+
+  function showTopics() {
+    const topics = [...new Set(questions.map(q => q.topic))];
+    document.getElementById('topicList').innerHTML = topics.map(t => {
+      const count = questions.filter(q => q.topic === t).length;
+      return `<button class="list-item" onclick="startTest('topic', '${t.replace(/'/g, "\\'")}')">
+        <strong>${t}</strong>
+        <span class="badge">${count} savol →</span>
+      </button>`;
+    }).join('');
+    showView('topics');
+  }
+
+  function showTickets() {
+    const perTicket = 5;
+    const totalTickets = Math.max(1, Math.ceil(questions.length / perTicket));
+    let html = '';
+    for (let i = 0; i < totalTickets; i++) {
+      const qCount = questions.slice(i * perTicket, i * perTicket + perTicket).length;
+      html += `<button class="list-item" onclick="startTest('ticket', null, ${i})">
+        <strong>№ ${i + 1}-bilet</strong>
+        <span class="badge">${qCount} savol →</span>
+      </button>`;
+    }
+    document.getElementById('ticketList').innerHTML = html;
+    showView('tickets');
+  }
+
+  function startTest(mode, topicName = null, ticketIdx = 0) {
+    currentMode = mode;
+    answeredCurrent = false;
+    scoreRight = 0;
+    scoreWrong = 0;
+    qIndex = 0;
+
+    if (mode === 'topic') {
+      activeList = questions.filter(q => q.topic === topicName);
+    } else if (mode === 'ticket') {
+      activeList = questions.slice(ticketIdx * 5, ticketIdx * 5 + 5);
+    } else if (mode === 'signs') {
+      activeList = questions.filter(q => Boolean(q.img));
+    } else if (mode === 'mistakes') {
+      const mIds = getStore('kh_mistakes', []);
+      activeList = questions.filter(q => mIds.includes(q.id));
+    } else if (mode === 'saved') {
+      const sIds = getStore('kh_saved', []);
+      activeList = questions.filter(q => sIds.includes(q.id));
+    } else if (mode === 'marathon') {
+      activeList = [...questions];
+      qIndex = getStore('kh_marathon_idx', 0);
+      if (qIndex >= activeList.length) qIndex = 0;
+    } else if (mode === 'blitz') {
+      activeList = [...questions].sort(() => Math.random() - 0.5).slice(0, Math.min(10, questions.length));
+    } else {
+      activeList = [...questions].sort(() => Math.random() - 0.5).slice(0, Math.min(20, questions.length));
+    }
+
+    if (!activeList.length) {
+      alert("Bu test bo‘limida hozircha savollar topilmadi.");
+      return;
+    }
+
+    const titles = {
+      exam: '🎓 Imtihon topshirish',
+      ticket: `🎫 № ${ticketIdx + 1}-bilet`,
+      topic: `📚 Mavzu: ${topicName || ''}`,
+      signs: '🚦 Yo‘l belgilari testi',
+      marathon: '∞ Marafon rejimi',
+      blitz: '⚡ Blits-test',
+      survival: '🛡️ Omon qolish',
+      mistakes: '⚠️ Xatolar ustida test',
+      saved: '⭐ Saqlangan savollar testi'
+    };
+    document.getElementById('modeTitle').textContent = titles[mode] || 'Test';
+
+    timeLeft = mode === 'blitz' ? 180 : 1500;
+    startTime = Date.now();
+    clearInterval(timerInt);
+    updateTimerDisplay();
+    timerInt = setInterval(() => {
+      timeLeft--;
+      updateTimerDisplay();
+      if (timeLeft <= 0) finishTest();
+    }, 1000);
+
+    renderQuestion();
+    showView('test');
+  }
+
+  function updateTimerDisplay() {
+    const m = Math.floor(Math.max(0, timeLeft) / 60);
+    const s = String(Math.max(0, timeLeft) % 60).padStart(2, '0');
+    document.getElementById('timer').textContent = `${m}:${s}`;
+  }
+
+  function renderQuestion() {
+    answeredCurrent = false;
+    const q = activeList[qIndex];
+    document.getElementById('qTopic').textContent = q.topic;
+    document.getElementById('qCount').textContent = `Savol ${qIndex + 1} / ${activeList.length}`;
+    document.getElementById('qBar').style.width = `${((qIndex + 1) / activeList.length) * 100}%`;
+    document.getElementById('qText').textContent = q.q;
+
+    document.getElementById('qImageWrap').innerHTML = q.img
+      ? `<img src="${q.img}" class="q-img" alt="Yo‘l belgisi">`
+      : '';
+
+    const exp = document.getElementById('explanationBox');
+    exp.style.display = 'none';
+    exp.textContent = '';
+
+    document.getElementById('answersBox').innerHTML = q.a.map((ans, idx) => `
+      <button class="answer" id="ans_${idx}" onclick="selectAnswer(${idx})">
+        <strong>${'ABCD'[idx]}.</strong> ${ans}
+      </button>
+    `).join('');
+
+    const saved = getStore('kh_saved', []);
+    document.getElementById('saveBtn').textContent = saved.includes(q.id) ? '★ Saqlangan' : '☆ Saqlash';
+    document.getElementById('nextBtn').textContent = qIndex === activeList.length - 1 ? 'Yakunlash ✓' : 'Keyingi savol →';
+  }
+
+  function selectAnswer(idx) {
+    if (answeredCurrent) return;
+    answeredCurrent = true;
+
+    const q = activeList[qIndex];
+    document.querySelectorAll('.answer').forEach(b => b.disabled = true);
+
+    const stats = getStore('kh_stats', { done: 0, right: 0 });
+    let mistakes = getStore('kh_mistakes', []);
+    stats.done++;
+
+    if (idx === q.c) {
+      document.getElementById(`ans_${idx}`).classList.add('correct');
+      scoreRight++;
+      stats.right++;
+      mistakes = mistakes.filter(id => id !== q.id);
+    } else {
+      document.getElementById(`ans_${idx}`).classList.add('wrong');
+      document.getElementById(`ans_${q.c}`).classList.add('correct');
+      scoreWrong++;
+      if (!mistakes.includes(q.id)) mistakes.push(q.id);
+    }
+
+    setStore('kh_stats', stats);
+    setStore('kh_mistakes', mistakes);
+
+    if (currentMode === 'marathon') {
+      setStore('kh_marathon_idx', qIndex + 1);
+    }
+
+    if (q.why) {
+      const exp = document.getElementById('explanationBox');
+      exp.textContent = '💡 Izoh: ' + q.why;
+      exp.style.display = 'block';
+    }
+
+    if (currentMode === 'survival' && idx !== q.c) {
+      setTimeout(() => {
+        alert("Omon qolish rejimida xato qildingiz! Test yakunlandi.");
+        finishTest();
+      }, 850);
+    }
+  }
+
+  function nextQuestion() {
+    if (!answeredCurrent) {
+      alert("Avval javob variantlaridan birini tanlang.");
+      return;
+    }
+    if (qIndex < activeList.length - 1) {
+      qIndex++;
+      renderQuestion();
+    } else {
+      finishTest();
+    }
+  }
+
+  function toggleSave() {
+    const id = activeList[qIndex].id;
+    let saved = getStore('kh_saved', []);
+    saved = saved.includes(id) ? saved.filter(x => x !== id) : [...saved, id];
+    setStore('kh_saved', saved);
+    document.getElementById('saveBtn').textContent = saved.includes(id) ? '★ Saqlangan' : '☆ Saqlash';
+  }
+
+  function finishTest() {
+    clearInterval(timerInt);
+    const total = scoreRight + scoreWrong || 1;
+    const pct = Math.round((scoreRight / total) * 100);
+    const spentSec = Math.round((Date.now() - startTime) / 1000);
+    const m = Math.floor(spentSec / 60);
+    const s = String(spentSec % 60).padStart(2, '0');
+
+    const passedExam = currentMode === 'exam' ? (scoreRight >= 18) : (pct >= 80);
+    document.getElementById('resScore').textContent = pct + '%';
+    document.getElementById('resTitle').textContent = passedExam ? 'Tabriklaymiz, imtihondan o‘tdingiz!' : 'Yana bir oz mashq qiling';
+    document.getElementById('resDesc').textContent = `Siz ${total} ta savoldan ${scoreRight} tasiga to‘g‘ri javob berdingiz.`;
+    document.getElementById('resRight').textContent = scoreRight;
+    document.getElementById('resWrong').textContent = scoreWrong;
+    document.getElementById('resTime').textContent = `${m}:${s}`;
+
+    showView('result');
+  }
+
+  function showMistakes() {
+    const ids = getStore('kh_mistakes', []);
+    const list = questions.filter(q => ids.includes(q.id));
+    document.getElementById('practiceMistakesBtn').style.display = list.length ? 'inline-block' : 'none';
+    document.getElementById('mistakeList').innerHTML = list.length
+      ? list.map(q => `<div class="panel"><strong>${q.q}</strong><div style="margin-top:6px; color:var(--green)">✔ To‘g‘ri javob: ${q.a[q.c]}</div></div>`).join('')
+      : '<div class="panel muted">Hozircha xato qilingan savollar yo‘q.</div>';
+    showView('mistakes');
+  }
+
+  function showSaved() {
+    const ids = getStore('kh_saved', []);
+    const list = questions.filter(q => ids.includes(q.id));
+    document.getElementById('practiceSavedBtn').style.display = list.length ? 'inline-block' : 'none';
+    document.getElementById('savedList').innerHTML = list.length
+      ? list.map(q => `<div class="panel"><strong>${q.q}</strong><div style="margin-top:6px; color:var(--green)">✔ Javob: ${q.a[q.c]}</div></div>`).join('')
+      : '<div class="panel muted">Saqlangan savollar ro‘yxati bo‘sh.</div>';
+    showView('saved');
+  }
+
+  function showLeaderboard() {
+    const stats = getStore('kh_stats', { done: 0, right: 0 });
+    const users = [
+      { name: "Siz (KH PATRUL)", score: stats.right * 15 },
+      { name: "Sardor Alimov", score: 630 },
+      { name: "Dilshod Karimov", score: 540 },
+      { name: "Madina Rustamova", score: 450 }
+    ].sort((a, b) => b.score - a.score);
+
+    document.getElementById('leaderList').innerHTML = users.map((u, i) => `
+      <div class="list-item">
+        <span><strong>#${i + 1}</strong> &nbsp; ${u.name}</span>
+        <span class="badge" style="color:var(--green)">${u.score} ball</span>
+      </div>
+    `).join('');
+    showView('leaderboard');
+  }
+
+  function showAdmin() {
+    document.getElementById('totalQCount').textContent = questions.length;
+    document.getElementById('adminQList').innerHTML = questions.map(q => `
+      <div class="list-item" style="gap:10px">
+        <div>
+          <div style="font-size:12px; color:var(--green)">${q.topic}</div>
+          <strong>${q.q}</strong>
+          <div class="muted" style="font-size:13px; margin-top:4px">Javob: ${q.a[q.c]}</div>
+        </div>
+        <button class="secondary" style="color:var(--red)" onclick="deleteQuestion(${q.id})">O‘chirish</button>
+      </div>
+    `).join('');
+    showView('admin');
+  }
+
+  function addNewQuestion() {
+    const topic = document.getElementById('inTopic').value.trim() || "Umumiy qoidalar";
+    const img = document.getElementById('inImg').value.trim();
+    const q = document.getElementById('inQ').value.trim();
+    const a = [
+      document.getElementById('inA0').value.trim(),
+      document.getElementById('inA1').value.trim(),
+      document.getElementById('inA2').value.trim(),
+      document.getElementById('inA3').value.trim()
+    ];
+    const c = parseInt(document.getElementById('inCorrect').value, 10);
+    const why = document.getElementById('inWhy').value.trim();
+
+    if (!q || a.some(x => !x)) {
+      alert("Iltimos, savol matni va 4 ta variantni to‘ldiring!");
+      return;
+    }
+
+    questions.push({ id: Date.now(), topic, img, q, a, c, why });
+    setStore('kh_all_questions_v3', questions);
+    ['inQ', 'inImg', 'inA0', 'inA1', 'inA2', 'inA3', 'inWhy'].forEach(id => document.getElementById(id).value = '');
+    alert("Yangi savol bazaga qo‘shildi!");
+    showAdmin();
+  }
+
+  function deleteQuestion(id) {
+    if (questions.length <= 1) {
+      alert("Oxirgi savolni o‘chirib bo‘lmaydi.");
+      return;
+    }
+    questions = questions.filter(q => q.id !== id);
+    setStore('kh_all_questions_v3', questions);
+    showAdmin();
+  }
+
+  function exportQuestions() {
+    const blob = new Blob([JSON.stringify(questions, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'kh-patrul-40-savol.json';
+    a.click();
+  }
+
+  updateStats();
+</script>
+</body>
+</html>
       border-bottom: 1px solid var(--line);
       display: flex;
       align-items: center;
